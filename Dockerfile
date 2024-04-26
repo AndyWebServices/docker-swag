@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM ghcr.io/linuxserver/baseimage-alpine-nginx:3.18
+FROM ghcr.io/linuxserver/baseimage-alpine-nginx:3.19
 
 # set version label
 ARG BUILD_DATE
@@ -45,39 +45,39 @@ RUN \
     nginx-mod-stream \
     nginx-mod-stream-geoip2 \
     nginx-vim \
-    php82-bcmath \
-    php82-bz2 \
-    php82-dom \
-    php82-exif \
-    php82-ftp \
-    php82-gd \
-    php82-gmp \
-    php82-imap \
-    php82-intl \
-    php82-ldap \
-    php82-mysqli \
-    php82-mysqlnd \
-    php82-opcache \
-    php82-pdo_mysql \
-    php82-pdo_odbc \
-    php82-pdo_pgsql \
-    php82-pdo_sqlite \
-    php82-pear \
-    php82-pecl-apcu \
-    php82-pecl-memcached \
-    php82-pecl-redis \
-    php82-pgsql \
-    php82-posix \
-    php82-soap \
-    php82-sockets \
-    php82-sodium \
-    php82-sqlite3 \
-    php82-tokenizer \
-    php82-xmlreader \
-    php82-xsl \
+    php83-bcmath \
+    php83-bz2 \
+    php83-dom \
+    php83-exif \
+    php83-ftp \
+    php83-gd \
+    php83-gmp \
+    php83-imap \
+    php83-intl \
+    php83-ldap \
+    php83-mysqli \
+    php83-mysqlnd \
+    php83-opcache \
+    php83-pdo_mysql \
+    php83-pdo_odbc \
+    php83-pdo_pgsql \
+    php83-pdo_sqlite \
+    php83-pear \
+    php83-pecl-apcu \
+    php83-pecl-memcached \
+    php83-pecl-redis \
+    php83-pgsql \
+    php83-posix \
+    php83-soap \
+    php83-sockets \
+    php83-sodium \
+    php83-sqlite3 \
+    php83-tokenizer \
+    php83-xmlreader \
+    php83-xsl \
     whois && \
-  apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-    php82-pecl-mcrypt && \
+  apk add --no-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community \
+    php83-pecl-mcrypt && \
   echo "**** install certbot plugins ****" && \
   if [ -z ${CERTBOT_VERSION+x} ]; then \
     CERTBOT_VERSION=$(curl -sL  https://pypi.python.org/pypi/certbot/json |jq -r '. | .info.version'); \
@@ -86,11 +86,12 @@ RUN \
   pip install -U --no-cache-dir \
     pip \
     wheel && \
-  pip install -U --no-cache-dir --find-links https://wheel-index.linuxserver.io/alpine-3.18/ \
+  pip install -U --no-cache-dir --find-links https://wheel-index.linuxserver.io/alpine-3.19/ \
     certbot==${CERTBOT_VERSION} \
     certbot-dns-acmedns \
     certbot-dns-aliyun \
     certbot-dns-azure \
+    certbot-dns-bunny \
     certbot-dns-cloudflare \
     certbot-dns-cpanel \
     certbot-dns-desec \
@@ -101,9 +102,12 @@ RUN \
     certbot-dns-dnspod \
     certbot-dns-do \
     certbot-dns-domeneshop \
+    certbot-dns-dreamhost \
     certbot-dns-duckdns \
-    certbot-dns-dynu \
+    certbot-dns-dynudns \
+    certbot-dns-freedns \
     certbot-dns-gehirn \
+    certbot-dns-glesys \
     certbot-dns-godaddy \
     certbot-dns-google \
     certbot-dns-google-domains \
@@ -115,6 +119,7 @@ RUN \
     certbot-dns-linode \
     certbot-dns-loopia \
     certbot-dns-luadns \
+    certbot-dns-namecheap \
     certbot-dns-netcup \
     certbot-dns-njalla \
     certbot-dns-nsone \
@@ -140,6 +145,8 @@ RUN \
   sed -i \
     's|#ssl_trusted_certificate /config/keys/cert.crt;|ssl_trusted_certificate /config/keys/cert.crt;|' \
     /defaults/nginx/ssl.conf.sample && \
+  echo "**** remove stream.conf ****" && \
+  rm -f /etc/nginx/conf.d/stream.conf && \
   echo "**** correct ip6tables legacy issue ****" && \
   rm \
     /sbin/ip6tables && \

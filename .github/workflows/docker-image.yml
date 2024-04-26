@@ -31,7 +31,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          file: ./Dockerfile
-          platforms: linux/arm64
+          file: ./Dockerfile.aarch64
           push: true
           tags: andywebservices/swag:latest

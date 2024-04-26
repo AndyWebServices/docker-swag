@@ -32,5 +32,6 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
+          platforms: linux/arm64
           push: true
           tags: andywebservices/swag:latest
